@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.att.dao.aaf.cass.CredDAO;
 import com.att.dao.aaf.cass.Namespace;
+import com.att.dao.aaf.cass.NsDAO;
+import com.att.dao.aaf.cass.NsSplit;
 import com.att.dao.aaf.cass.PermDAO;
 import com.att.dao.aaf.cass.RoleDAO;
 import com.att.dao.aaf.cass.PermDAO.Data;
@@ -44,5 +46,11 @@ public class Utils {
 	
 	public static Result<Namespace> getNsd () {
 		return Result.ok(new Namespace());
+	}
+
+
+	public static Result<NsSplit> getnss() {
+		Result<NsDAO.Data> nsDaoD = Result.ok(new NsDAO.Data());
+		return Result.err(nsDaoD);
 	}
 }
