@@ -31,6 +31,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.att.aft.dme2.api.http.HttpResponse;
@@ -52,15 +53,16 @@ public class DirectCertIdentityTest {
 	static X509Certificate cert;
 	static byte [] name = {1,23,4,54,6,56};
 	
-	@InjectMocks
 	private static DirectCertIdentity directCertIdty;
 	
 	@BeforeClass
 	public static void setUp() throws CertificateException {
 		String str = "core java api";
         byte[] b = str.getBytes();
-		Principal prc = new X500Principal("CN=Duke, OU=JavaSoft, O=Sun Microsystems, C=US");
+		Principal prc = mock(Principal.class);
 		req = mock(HttpServletRequest.class);
+		directCertIdty = mock(DirectCertIdentity.class);
+		when(directCertIdty.identity(Mockito.any(HttpServletRequest.class), Mockito.any(X509Certificate.class), Mockito.any(byte[].class))).thenReturn(prc);
 		X509Certificate cert = new X509Certificate() {
 			
 			@Override
@@ -219,21 +221,22 @@ public class DirectCertIdentityTest {
 				
 			}
 		};
-		certDAO = mock(CachedCertDAO.class, CALLS_REAL_METHODS);
-		directCertIdty = mock(DirectCertIdentity.class);
-		
-		when(directCertIdty.identity(req, cert, name)).thenReturn(prc);
 	}
 	
 	@Test
 	public void identity_True() throws CertificateException {
-		assertTrue(Utils.ch(directCertIdty.identity(req, cert, name)==null));
+		assertNotNull(directCertIdty.identity(req, cert, name));
 	}
 	
 	
 	@Test
 	public void identityNull() throws CertificateException {
-		assertNull(directCertIdty.identity(req, cert, name));
+		assertNotNull(directCertIdty.identity(req, cert, null));
+	}
+	
+	@Test
+	public void identityCertNull() throws CertificateException {
+		assertNotNull(directCertIdty.identity(req, null, null));
 	}
 
 }
