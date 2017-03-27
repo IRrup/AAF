@@ -47,10 +47,29 @@ public class Utils {
 	public static Result<Namespace> getNsd () {
 		return Result.ok(new Namespace());
 	}
+	
+	public static Result<Namespace> getNsdImpl () {
+		Namespace nspace = new Namespace();
+		nspace.name = "nspace";
+		List<String> lsString = new ArrayList<>();
+		List<String> lsowner = new ArrayList<>();
+		lsString.add("admin1");
+		lsString.add("admin1");
+		lsowner.add("owner1");
+		lsowner.add("owner2");
+		nspace.admin = lsString;
+		nspace.owner = lsowner;
+		return Result.ok(nspace);
+	}
 
 
 	public static Result<NsSplit> getnss() {
 		Result<NsDAO.Data> nsDaoD = Result.ok(new NsDAO.Data());
 		return Result.err(nsDaoD);
+	}
+
+
+	public static Result<com.att.dao.aaf.cass.NsDAO.Data> getNsdAO() {
+		return Result.ok(new NsDAO.Data());
 	}
 }
