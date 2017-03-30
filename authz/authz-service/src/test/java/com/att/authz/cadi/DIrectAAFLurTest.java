@@ -62,10 +62,9 @@ public class DIrectAAFLurTest {
 	@Test
 	public void fish_positive() {
 		when(env.newTransNoAvg()).thenReturn(trans);
-		when(ques.getPermsByUser(trans, "TestUser", false)).thenReturn(pdr);
+		when(ques.getPermsByUser(trans, "TestUser", true)).thenReturn(pdr);
 		assertFalse(dflur.fish(trans, bait, pond));
 	}
-	
 	
 	static void setFinalStatic(Field field, Object newValue) throws Exception {
         field.setAccessible(true);
